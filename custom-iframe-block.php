@@ -58,3 +58,22 @@ function custom_iframe_block_render($attributes) {
     // Return a div with a responsive aspect ratio containing the iframe
     return sprintf('<div style="position: relative; overflow: hidden; padding-top: %s%%;"><iframe style="position: absolute; top: 0; left: 0; width: 100%%; height: 100%%;" src="%s"></iframe></div>', esc_attr($paddingTop), esc_attr($url));
 }
+
+// Add custom plugin meta links
+function custom_iframe_block_plugin_row_meta($links, $file) {
+    $plugin = plugin_basename(__FILE__);
+
+    // Check to make sure we are on the correct plugin
+    if ($file == $plugin) {
+        // The anchor tag for the 'Repo' link
+        $repo_link = '<a href="https://github.com/ilhamhady/custom-iframe-block" target="_blank">Repo</a>';
+        // The anchor tag for the 'Contact' link
+        $contact_link = '<a href="https://wa.me/6281232724414" target="_blank">Contact</a>';
+        // Add the link to the end of the array
+        $links[] = $repo_link;
+        $links[] = $contact_link;
+    }
+    return $links;
+}
+
+add_filter('plugin_row_meta', 'custom_iframe_block_plugin_row_meta', 10, 2);
