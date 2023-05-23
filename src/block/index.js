@@ -19,13 +19,13 @@ registerBlockType("custom-iframe-block/block", {
       type: "string",
       default: "16/9",
     },
-    width: {
+    maxWidth: {
       type: "number",
       default: 750,
     },
   },
   edit: ({ attributes, setAttributes }) => {
-    const { url, width, aspectRatio } = attributes;
+    const { url, maxWidth, aspectRatio } = attributes;
     const [newUrl, setNewUrl] = useState(url);
 
     const validateUrl = value => {
@@ -45,7 +45,7 @@ registerBlockType("custom-iframe-block/block", {
     const calculateHeight = () => {
       const [numerator, denominator] = aspectRatio.split("/");
       const aspectRatioValue = parseFloat(numerator) / parseFloat(denominator);
-      return Math.round(width / aspectRatioValue);
+      return Math.round(maxWidth / aspectRatioValue);
     };
 
     return (
@@ -53,10 +53,10 @@ registerBlockType("custom-iframe-block/block", {
         <InspectorControls>
           <PanelBody title="Iframe Settings">
             <TextControl
-              label="Width"
+              label="Max Width"
               type="number"
-              value={width}
-              onChange={value => setAttributes({ width: Number(value) })}
+              value={maxWidth}
+              onChange={value => setAttributes({ maxWidth: Number(value) })}
             />
             <TextControl
               label="Aspect Ratio"
@@ -72,55 +72,108 @@ registerBlockType("custom-iframe-block/block", {
           onBlur={() => validateUrl(newUrl)}
         />
         {url && (
-          <iframe
-            src={url}
-            width={width}
-            height={calculateHeight()}
-            style={{ maxWidth: "100%", height: calculateHeight() }}
-          />
+          <div
+            style={{
+              position: "relative",
+              paddingBottom: `${
+                (1 / parseFloat(aspectRatio.split("/")[0])) * 100
+              }%`,
+              maxWidth: `${maxWidth}px`,
+              margin: "0 auto",
+            }}>
+            <iframe
+              src={url}
+              width="100%"
+              height="100%"
+              style={{
+                position: "absolute",
+                top: "0",
+                left: "0",
+                width: "100%",
+                height: "100%",
+              }}
+              frameborder="0"
+            />
+          </div>
         )}
       </div>
     );
   },
   save: ({ attributes }) => {
-    const { url, width, aspectRatio } = attributes;
+    const { url, maxWidth, aspectRatio } = attributes;
 
     if (!url) return null;
 
     const calculateHeight = () => {
       const [numerator, denominator] = aspectRatio.split("/");
       const aspectRatioValue = parseFloat(numerator) / parseFloat(denominator);
-      return Math.round(width / aspectRatioValue);
+      return Math.round(maxWidth / aspectRatioValue);
     };
 
     return (
-      <iframe
-        src={url}
-        width={width}
-        height={calculateHeight()}
-        style={{ maxWidth: "100%", height: calculateHeight() }}
-      />
+      url && (
+        <div
+          style={{
+            position: "relative",
+            paddingBottom: `${
+              (1 / parseFloat(aspectRatio.split("/")[0])) * 100
+            }%`,
+            maxWidth: `${maxWidth}px`,
+            margin: "0 auto",
+          }}>
+          <iframe
+            src={url}
+            width="100%"
+            height="100%"
+            style={{
+              position: "absolute",
+              top: "0",
+              left: "0",
+              width: "100%",
+              height: "100%",
+            }}
+            frameborder="0"
+          />
+        </div>
+      )
     );
   },
   // Server-side rendering callback
   render_callback: ({ attributes }) => {
-    const { url, width, aspectRatio } = attributes;
+    const { url, maxWidth, aspectRatio } = attributes;
 
     if (!url) return null;
 
     const calculateHeight = () => {
       const [numerator, denominator] = aspectRatio.split("/");
       const aspectRatioValue = parseFloat(numerator) / parseFloat(denominator);
-      return Math.round(width / aspectRatioValue);
+      return Math.round(maxWidth / aspectRatioValue);
     };
 
     return (
-      <iframe
-        src={url}
-        width={width}
-        height={calculateHeight()}
-        style={{ maxWidth: "100%", height: calculateHeight() }}
-      />
+      <div
+        style={{
+          position: "relative",
+          paddingBottom: `${
+            (1 / parseFloat(aspectRatio.split("/")[0])) * 100
+          }%`,
+          maxWidth: `${maxWidth}px`,
+          margin: "0 auto",
+        }}>
+        <iframe
+          src={url}
+          width="100%"
+          height="100%"
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+          }}
+          frameborder="0"
+        />
+      </div>
     );
   },
 });
