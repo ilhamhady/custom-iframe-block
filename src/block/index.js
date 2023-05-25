@@ -23,9 +23,13 @@ registerBlockType("custom-iframe-block/block", {
       type: "number",
       default: 750,
     },
+    margin: {
+      type: "string",
+      default: "0 auto",
+    },
   },
   edit: ({ attributes, setAttributes }) => {
-    const { url, maxWidth, aspectRatio } = attributes;
+    const { url, maxWidth, aspectRatio, margin } = attributes;
     const [newUrl, setNewUrl] = useState(url);
 
     const validateUrl = value => {
@@ -42,10 +46,11 @@ registerBlockType("custom-iframe-block/block", {
       }
     };
 
-    const calculateHeight = () => {
+    const calculatePaddingTop = () => {
       const [numerator, denominator] = aspectRatio.split("/");
-      const aspectRatioValue = parseFloat(numerator) / parseFloat(denominator);
-      return Math.round(maxWidth / aspectRatioValue);
+      const aspectRatioValue =
+        (parseFloat(denominator) / parseFloat(numerator)) * 100;
+      return `${aspectRatioValue}%`;
     };
 
     return (
@@ -63,6 +68,11 @@ registerBlockType("custom-iframe-block/block", {
               value={aspectRatio}
               onChange={value => setAttributes({ aspectRatio: value })}
             />
+            <TextControl
+              label="Margin"
+              value={margin}
+              onChange={value => setAttributes({ margin: value })}
+            />
           </PanelBody>
         </InspectorControls>
         <TextControl
@@ -75,11 +85,9 @@ registerBlockType("custom-iframe-block/block", {
           <div
             style={{
               position: "relative",
-              paddingBottom: `${
-                (1 / parseFloat(aspectRatio.split("/")[0])) * 100
-              }%`,
+              paddingTop: calculatePaddingTop(),
               maxWidth: `${maxWidth}px`,
-              margin: "0 auto",
+              margin: `${margin}`,
             }}>
             <iframe
               src={url}
@@ -92,7 +100,7 @@ registerBlockType("custom-iframe-block/block", {
                 width: "100%",
                 height: "100%",
               }}
-              frameborder="0"
+              frameBorder="0"
             />
           </div>
         )}
@@ -100,14 +108,15 @@ registerBlockType("custom-iframe-block/block", {
     );
   },
   save: ({ attributes }) => {
-    const { url, maxWidth, aspectRatio } = attributes;
+    const { url, maxWidth, aspectRatio, margin } = attributes;
 
     if (!url) return null;
 
-    const calculateHeight = () => {
+    const calculatePaddingTop = () => {
       const [numerator, denominator] = aspectRatio.split("/");
-      const aspectRatioValue = parseFloat(numerator) / parseFloat(denominator);
-      return Math.round(maxWidth / aspectRatioValue);
+      const aspectRatioValue =
+        (parseFloat(denominator) / parseFloat(numerator)) * 100;
+      return `${aspectRatioValue}%`;
     };
 
     return (
@@ -115,11 +124,9 @@ registerBlockType("custom-iframe-block/block", {
         <div
           style={{
             position: "relative",
-            paddingBottom: `${
-              (1 / parseFloat(aspectRatio.split("/")[0])) * 100
-            }%`,
+            paddingTop: calculatePaddingTop(),
             maxWidth: `${maxWidth}px`,
-            margin: "0 auto",
+            margin: `${margin}`,
           }}>
           <iframe
             src={url}
@@ -132,7 +139,7 @@ registerBlockType("custom-iframe-block/block", {
               width: "100%",
               height: "100%",
             }}
-            frameborder="0"
+            frameBorder="0"
           />
         </div>
       )
@@ -140,25 +147,24 @@ registerBlockType("custom-iframe-block/block", {
   },
   // Server-side rendering callback
   render_callback: ({ attributes }) => {
-    const { url, maxWidth, aspectRatio } = attributes;
+    const { url, maxWidth, aspectRatio, margin } = attributes;
 
     if (!url) return null;
 
-    const calculateHeight = () => {
+    const calculatePaddingTop = () => {
       const [numerator, denominator] = aspectRatio.split("/");
-      const aspectRatioValue = parseFloat(numerator) / parseFloat(denominator);
-      return Math.round(maxWidth / aspectRatioValue);
+      const aspectRatioValue =
+        (parseFloat(denominator) / parseFloat(numerator)) * 100;
+      return `${aspectRatioValue}%`;
     };
 
     return (
       <div
         style={{
           position: "relative",
-          paddingBottom: `${
-            (1 / parseFloat(aspectRatio.split("/")[0])) * 100
-          }%`,
+          paddingTop: calculatePaddingTop(),
           maxWidth: `${maxWidth}px`,
-          margin: "0 auto",
+          margin: `${margin}`,
         }}>
         <iframe
           src={url}
@@ -171,7 +177,7 @@ registerBlockType("custom-iframe-block/block", {
             width: "100%",
             height: "100%",
           }}
-          frameborder="0"
+          frameBorder="0"
         />
       </div>
     );

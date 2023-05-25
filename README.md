@@ -4,7 +4,7 @@
 **Tags:** Gutenberg, block, iframe, embed  
 **Requires at least:** WordPress 5.0  
 **Tested up to:** WordPress 5.8  
-**Stable tag:** 1.0.0  
+**Stable tag:** 1.0.1  
 **License:** GPLv2 or later  
 **License URI:** <http://www.gnu.org/licenses/gpl-2.0.html>
 
@@ -25,6 +25,10 @@ Custom Iframe Block is a simple yet powerful plugin that adds a new Gutenberg bl
 2. Enter the URL you want to embed in the iframe, as well as the width and aspect ratio.
 3. Save or publish your post to see the iframe in action.
 
+## Known Issue
+
+- If the iframe isn't displaying correctly, it might be due to your theme. To resolve this issue, consider wrapping it within a single-column block.
+
 ## Screenshots
 
 1. Iframe block in Gutenberg editor.
@@ -35,6 +39,11 @@ Custom Iframe Block is a simple yet powerful plugin that adds a new Gutenberg bl
 ### 1.0.0
 
 - Initial release
+
+### 1.0.1
+
+- Responsive iframe
+- Margin control
 
 ## Frequently Asked Questions
 

@@ -3,7 +3,7 @@
 Plugin Name: Custom Iframe Block
 Plugin URI: https://github.com/ilhamhady/custom-iframe-block
 Description: A Gutenberg block for embedding responsive iframes with custom dimensions and aspect ratio.
-Version: 1.0.0
+Version: 1.0.1
 Author: Muhammad Ilham
 Author URI: https://www.linkedin.com/in/muhammad-ilham-shogir/
 License: GPL v2 or later

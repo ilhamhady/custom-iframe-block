@@ -1,6 +1,6 @@
 {
   "name": "custom-iframe-block",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Gutenberg block for embedding responsive iframes with custom dimensions and aspect ratio.",
   "main": "src/build/index.js",
   "scripts": {
